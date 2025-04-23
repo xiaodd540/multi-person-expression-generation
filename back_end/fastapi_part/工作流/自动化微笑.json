@@ -1,0 +1,333 @@
+{
+  "2": {
+    "inputs": {
+      "ckpt_name": "checkpoint/epicrealism_naturalSinRC1VAE.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Checkpoint加载器（简易）"
+    }
+  },
+  "4": {
+    "inputs": {
+      "image": "test_small.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "6": {
+    "inputs": {
+      "detect_hand": "disable",
+      "detect_body": "disable",
+      "detect_face": "enable",
+      "resolution": 1024,
+      "scale_stick_for_xinsr_cn": "disable",
+      "image": [
+        "97",
+        0
+      ]
+    },
+    "class_type": "OpenposePreprocessor",
+    "_meta": {
+      "title": "OpenPose Pose"
+    }
+  },
+  "9": {
+    "inputs": {
+      "mode": "polygon",
+      "skin": "rgb( 0,  0, 0)",
+      "left_eye": "rgb(0, 0, 0)",
+      "right_eye": "rgb(0, 0, 0)",
+      "nose": "rgb(0, 0, 0)",
+      "upper_lip": "rgb( 245,  245, 245)",
+      "inner_mouth": "rgb( 245,  245, 245)",
+      "lower_lip": "rgb( 245,  245, 245)",
+      "pose_kps": [
+        "6",
+        1
+      ]
+    },
+    "class_type": "FacialPartColoringFromPoseKps",
+    "_meta": {
+      "title": "Colorize Facial Parts from PoseKPS"
+    }
+  },
+  "21": {
+    "inputs": {
+      "lora_name": "lora/Amiibo_pdxl_Incrs_v1.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": [
+        "2",
+        0
+      ],
+      "clip": [
+        "2",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "加载LoRA"
+    }
+  },
+  "22": {
+    "inputs": {
+      "text": "watermark, (octane render, render, drawing, anime, bad photo, bad photography:1.3),(worst quality, low quality, blurry:1.2), (bad teeth, deformed teeth, deformed lips),thick_lips",
+      "clip": [
+        "21",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "23": {
+    "inputs": {
+      "text": [
+        "96",
+        0
+      ],
+      "clip": [
+        "21",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "46": {
+    "inputs": {
+      "seed": 841275381371861,
+      "steps": 15,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.36,
+      "model": [
+        "21",
+        0
+      ],
+      "positive": [
+        "79",
+        0
+      ],
+      "negative": [
+        "79",
+        1
+      ],
+      "latent_image": [
+        "81",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "47": {
+    "inputs": {
+      "samples": [
+        "46",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "72": {
+    "inputs": {
+      "control_net_name": "controlnet/control_v11p_sd15_openpose.pth"
+    },
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "加载ControlNet模型"
+    }
+  },
+  "79": {
+    "inputs": {
+      "strength": 1,
+      "start_percent": 0,
+      "end_percent": 1,
+      "positive": [
+        "23",
+        0
+      ],
+      "negative": [
+        "22",
+        0
+      ],
+      "control_net": [
+        "72",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ],
+      "image": [
+        "82",
+        0
+      ]
+    },
+    "class_type": "ControlNetApplySD3",
+    "_meta": {
+      "title": "应用ControlNet"
+    }
+  },
+  "80": {
+    "inputs": {
+      "red": 245,
+      "green": 245,
+      "blue": 245,
+      "threshold": 30,
+      "image": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "MaskFromColor+",
+    "_meta": {
+      "title": "🔧 Mask From Color"
+    }
+  },
+  "81": {
+    "inputs": {
+      "grow_mask_by": 30,
+      "pixels": [
+        "97",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ],
+      "mask": [
+        "80",
+        0
+      ]
+    },
+    "class_type": "VAEEncodeForInpaint",
+    "_meta": {
+      "title": "VAE编码（局部重绘）"
+    }
+  },
+  "82": {
+    "inputs": {
+      "samples": [
+        "81",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "83": {
+    "inputs": {
+      "samples": [
+        "81",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "96": {
+    "inputs": {
+      "string": " simle"
+    },
+    "class_type": "Primitive string [Crystools]",
+    "_meta": {
+      "title": "🪛 Primitive string"
+    }
+  },
+  "97": {
+    "inputs": {
+      "upscale_method": "bilinear",
+      "width": 512,
+      "height": 512,
+      "crop": "disabled",
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "缩放图像"
+    }
+  },
+  "98": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "width": [
+        "101",
+        0
+      ],
+      "height": [
+        "101",
+        1
+      ],
+      "crop": "disabled",
+      "image": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "缩放图像"
+    }
+  },
+  "101": {
+    "inputs": {
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "GetImageSize+",
+    "_meta": {
+      "title": "🔧 Get Image Size"
+    }
+  },
+  "111": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "98",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  }
+}

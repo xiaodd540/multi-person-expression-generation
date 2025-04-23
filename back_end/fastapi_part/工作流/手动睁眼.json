@@ -1,0 +1,252 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "checkpoint/epicrealism_naturalSinRC1VAE.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Checkpoint加载器(简易)"
+    }
+  },
+  "2": {
+    "inputs": {
+      "seed": 99308454522528,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "15",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
+      "latent_image": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "3": {
+    "inputs": {
+      "text": [
+        "12",
+        0
+      ],
+      "clip": [
+        "15",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码器"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "15",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码器"
+    }
+  },
+  "5": {
+    "inputs": {
+      "samples": [
+        "2",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "8": {
+    "inputs": {
+      "image": "clipspace/clipspace-mask-3664305.6000000015.png [input]",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "10": {
+    "inputs": {
+      "text_input": "",
+      "task": "more_detailed_caption",
+      "fill_mask": true,
+      "keep_model_loaded": false,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": true,
+      "output_mask_select": "",
+      "seed": 186310531757998,
+      "image": [
+        "8",
+        0
+      ],
+      "florence2_model": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "Florence2Run",
+    "_meta": {
+      "title": "Florence2 执行"
+    }
+  },
+  "11": {
+    "inputs": {
+      "model": "Florence-2-base",
+      "precision": "fp16",
+      "attention": "sdpa"
+    },
+    "class_type": "Florence2ModelLoader",
+    "_meta": {
+      "title": "Florence2 模型加载器"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text1": [
+        "13",
+        0
+      ],
+      "text2": [
+        "19",
+        0
+      ],
+      "separator": ","
+    },
+    "class_type": "CR Text Concatenate",
+    "_meta": {
+      "title": "文本联结"
+    }
+  },
+  "13": {
+    "inputs": {
+      "prompt": "（eyes open widely::2）"
+    },
+    "class_type": "CR Prompt Text",
+    "_meta": {
+      "title": "提示词文本"
+    }
+  },
+  "15": {
+    "inputs": {
+      "lora_name": "PerfectEyesXL.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "17": {
+    "inputs": {
+      "grow_mask_by": 6,
+      "pixels": [
+        "8",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ],
+      "mask": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "VAEEncodeForInpaint",
+    "_meta": {
+      "title": "VAE内补编码器"
+    }
+  },
+  "19": {
+    "inputs": {
+      "text": [
+        "10",
+        2
+      ],
+      "find1": "closed",
+      "replace1": "",
+      "find2": "close-up",
+      "replace2": "",
+      "find3": "close",
+      "replace3": ""
+    },
+    "class_type": "CR Text Replace",
+    "_meta": {
+      "title": "文本替换"
+    }
+  },
+  "33": {
+    "inputs": {
+      "image": "images (2).jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "34": {
+    "inputs": {
+      "channel": "red",
+      "image": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "图像到遮罩"
+    }
+  },
+  "35": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  }
+}

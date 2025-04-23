@@ -1,0 +1,42 @@
+// const uploadRecords = ref([
+//   {
+//     image: '/test.jpg',
+//     status: 'success',
+//     date: '2025-03-15',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-10',
+//     status: 'success',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-05 19:00 .am',
+//     status: 'success',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-05',
+//     status: 'success',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-05',
+//     status: 'success',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-05',
+//     status: 'success',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-05',
+//     status: 'success',
+//   },
+//   {
+//     image: '/test.jpg',
+//     date: '2025-03-05',
+//     status: 'success',
+//   }
+// ]);

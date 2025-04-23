@@ -1,0 +1,297 @@
+{
+  "2": {
+    "inputs": {
+      "ckpt_name": "checkpoint/epicrealism_naturalSinRC1VAE.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Checkpoint加载器(简易)"
+    }
+  },
+  "4": {
+    "inputs": {
+      "image": "aohiJMqFJQ_small.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "6": {
+    "inputs": {
+      "detect_hand": "disable",
+      "detect_body": "disable",
+      "detect_face": "enable",
+      "resolution": 1024,
+      "scale_stick_for_xinsr_cn": "disable",
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "OpenposePreprocessor",
+    "_meta": {
+      "title": "Openpose姿态预处理器"
+    }
+  },
+  "9": {
+    "inputs": {
+      "mode": "polygon",
+      "skin": "rgb( 0,  0, 0)",
+      "left_eye": "rgb( 245,  245, 245)",
+      "right_eye": "rgb( 245,  245, 245)",
+      "nose": "rgb(0, 0, 0)",
+      "upper_lip": "rgb(0, 0, 0)",
+      "inner_mouth": "rgb(0, 0, 0)",
+      "lower_lip": "rgb(0, 0, 0)",
+      "pose_kps": [
+        "6",
+        1
+      ]
+    },
+    "class_type": "FacialPartColoringFromPoseKps",
+    "_meta": {
+      "title": "姿态关键点面部上色"
+    }
+  },
+  "21": {
+    "inputs": {
+      "lora_name": "PerfectEyesXL.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": [
+        "2",
+        0
+      ],
+      "clip": [
+        "2",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "22": {
+    "inputs": {
+      "text": [
+        "166",
+        0
+      ],
+      "clip": [
+        "21",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码器"
+    }
+  },
+  "47": {
+    "inputs": {
+      "samples": [
+        "121",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "80": {
+    "inputs": {
+      "red": 245,
+      "green": 245,
+      "blue": 245,
+      "threshold": 30,
+      "image": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "MaskFromColor+",
+    "_meta": {
+      "title": "颜色到遮罩"
+    }
+  },
+  "81": {
+    "inputs": {
+      "grow_mask_by": 6,
+      "pixels": [
+        "4",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ],
+      "mask": [
+        "112",
+        0
+      ]
+    },
+    "class_type": "VAEEncodeForInpaint",
+    "_meta": {
+      "title": "VAE内补编码器"
+    }
+  },
+  "112": {
+    "inputs": {
+      "invert_mask": false,
+      "grow": 45,
+      "blur": 6,
+      "mask": [
+        "80",
+        0
+      ]
+    },
+    "class_type": "LayerMask: MaskGrow",
+    "_meta": {
+      "title": "遮罩扩张"
+    }
+  },
+  "121": {
+    "inputs": {
+      "seed": 127486633434410,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "21",
+        0
+      ],
+      "positive": [
+        "22",
+        0
+      ],
+      "negative": [
+        "122",
+        0
+      ],
+      "latent_image": [
+        "81",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "122": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "21",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码器"
+    }
+  },
+  "162": {
+    "inputs": {
+      "model": "Florence-2-base",
+      "precision": "fp16",
+      "attention": "sdpa"
+    },
+    "class_type": "Florence2ModelLoader",
+    "_meta": {
+      "title": "Florence2 模型加载器"
+    }
+  },
+  "163": {
+    "inputs": {
+      "text_input": "",
+      "task": "more_detailed_caption",
+      "fill_mask": true,
+      "keep_model_loaded": false,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": true,
+      "output_mask_select": "",
+      "seed": 510466374612548,
+      "image": [
+        "4",
+        0
+      ],
+      "florence2_model": [
+        "162",
+        0
+      ]
+    },
+    "class_type": "Florence2Run",
+    "_meta": {
+      "title": "Florence2 执行"
+    }
+  },
+  "164": {
+    "inputs": {
+      "string1": [
+        "165",
+        0
+      ],
+      "string2": [
+        "163",
+        2
+      ],
+      "delimiter": ","
+    },
+    "class_type": "JoinStrings",
+    "_meta": {
+      "title": "合并字符串"
+    }
+  },
+  "165": {
+    "inputs": {
+      "text": "（eyes open widely::2）"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "多行文本"
+    }
+  },
+  "166": {
+    "inputs": {
+      "text": [
+        "164",
+        0
+      ],
+      "find1": "close",
+      "replace1": "",
+      "find2": "close-up",
+      "replace2": "",
+      "find3": "closed",
+      "replace3": ""
+    },
+    "class_type": "CR Text Replace",
+    "_meta": {
+      "title": "文本替换"
+    }
+  },
+  "167": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  }
+}

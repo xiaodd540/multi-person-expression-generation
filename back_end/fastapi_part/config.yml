@@ -1,0 +1,3 @@
+obs:
+  AccessKeyID: # 自己华为云的AccessKeyID
+  SecretAccessKey: # 自己华为云的SecretAccessKey

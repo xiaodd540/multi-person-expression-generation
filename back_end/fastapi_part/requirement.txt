@@ -1,0 +1,23 @@
+# requirements.txt
+
+# FastAPI 相关依赖
+fastapi>=0.68.0,<0.69.0
+uvicorn>=0.15.0,<0.16.0
+pydantic>=1.8.0,<2.0.0
+requests>=2.26.0
+PyYAML>=6.0
+
+# 图像处理
+Pillow>=9.0.0
+
+# CORS支持
+python-multipart>=0.0.5  # 用于处理文件上传
+
+# 类型提示支持
+typing-extensions>=3.10.0
+
+# 环境变量管理
+python-dotenv>=0.19.0
+
+# 华为云 OBS
+esdk-obs-python>=3.21.11
